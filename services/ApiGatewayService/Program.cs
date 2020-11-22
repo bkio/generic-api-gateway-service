@@ -64,7 +64,7 @@ namespace ApiGatewayService
                 new BWebPrefixStructure(new string[] { "/auth/*" }, () => new HandleRequest(AuthServiceBaseUrl).WithLoginRequirement(AuthServiceBaseUrl)/*Required from external*/),
                 new BWebPrefixStructure(new string[] { "/3d/models/ping" }, () => new HandleRequest(CadFileServiceBaseUrl)/*Ping-pong; for avoiding scale-down-to-zero*/),
                 new BWebPrefixStructure(new string[] { "/3d/models/internal/*" }, () => new HandleRequest(CadFileServiceBaseUrl)/*Internal services have secret based auth check, different than login mechanism*/),
-                new BWebPrefixStructure(new string[] { "/3d/models/*" }, () => new HandleRequest(CadFileServiceBaseUrl).WithLoginRequirement(AuthServiceBaseUrl)),
+                new BWebPrefixStructure(new string[] { "/3d/models*" }, () => new HandleRequest(CadFileServiceBaseUrl).WithLoginRequirement(AuthServiceBaseUrl)),
                 new BWebPrefixStructure(new string[] { "/scheduler/internal/*" }, () => new HandleRequest(SchedulerServiceBaseUrl)/*Internal services have secret based auth check, different than login mechanism*/),
             };
             var BWebService = new BWebService(WebServiceEndpoints.ToArray(), ServInit.ServerPort, ServInit.TracingService);
