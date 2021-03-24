@@ -3,7 +3,6 @@
 using System;
 using System.Net;
 using BWebServiceUtilities;
-using BWebServiceUtilities_GC;
 using ServiceUtilities.All;
 
 namespace ApiPassThroughService.Endpoints
@@ -21,7 +20,7 @@ namespace ApiPassThroughService.Endpoints
         {
             if (MaintenanceChecker.Get().IsMaintenanceModeOn()) return BWebResponse.ServiceUnavailable("The system is in maintenance.");
 
-            var Response = BWebUtilities_GC_CloudRun.RequestRedirection(
+            var Response = BWebServiceExtraUtilities.RequestRedirection(
                 _Context,
                 ApiGatewayServiceEndpoint + "/" + _Context.Request.RawUrl.TrimStart('/'),
                 _ErrorMessageAction,

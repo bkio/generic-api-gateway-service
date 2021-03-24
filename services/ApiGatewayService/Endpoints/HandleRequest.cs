@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Net;
 using BCommonUtilities;
 using BWebServiceUtilities;
-using BWebServiceUtilities_GC;
 using ServiceUtilities.All;
 using Newtonsoft.Json.Linq;
 
@@ -56,7 +55,7 @@ namespace ApiGatewayService.Endpoints
                 _ErrorMessageAction)) return AuthFailureResponse;
 
             GetTracingService()?.On_FromGatewayToService_Sent(_Context, _ErrorMessageAction);
-            var Result = BWebUtilities_GC_CloudRun.RequestRedirection(
+            var Result = BWebServiceExtraUtilities.RequestRedirection(
                 _Context,
                 DestinationBaseUrl + _Context.Request.RawUrl,
                 _ErrorMessageAction,
@@ -109,7 +108,7 @@ namespace ApiGatewayService.Endpoints
                 }
 
                 GetTracingService()?.On_FromGatewayToService_Sent(_Context, _ErrorMessageAction);
-                var Result = BWebUtilities_GC_CloudRun.InterServicesRequest(new BWebUtilities_GC_CloudRun.InterServicesRequestRequest()
+                var Result = BWebServiceExtraUtilities.InterServicesRequest(new BWebServiceExtraUtilities.InterServicesRequestRequest()
                 {
                     DestinationServiceUrl = AuthServiceBaseUrl + "/auth/access_check",
                     RequestMethod =  "POST",
