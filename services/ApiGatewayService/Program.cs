@@ -17,9 +17,9 @@ namespace ApiGatewayService
         {
             System.Console.WriteLine("Initializing the service...");
 
-#if (Debug || DEBUG)
-            if (!ServicesDebugOnlyUtilities.CalledFromMain()) return;
-#endif
+//#if (Debug || DEBUG)
+//            if (!ServicesDebugOnlyUtilities.CalledFromMain()) return;
+//#endif
 
             // In case of a cloud component dependency or environment variable is added/removed;
             // Relative terraform script and microservice-dependency-map.cs must be updated as well.
@@ -30,9 +30,6 @@ namespace ApiGatewayService
             if (!BServiceInitializer.Initialize(out BServiceInitializer ServInit,
                 new string[][]
                 {
-                    new string[] { "GOOGLE_CLOUD_PROJECT_ID" },
-                    new string[] { "GOOGLE_APPLICATION_CREDENTIALS", "GOOGLE_PLAIN_CREDENTIALS" },
-
                     new string[] { "DEPLOYMENT_BRANCH_NAME" },
                     new string[] { "DEPLOYMENT_BUILD_NUMBER" },
 
@@ -43,7 +40,7 @@ namespace ApiGatewayService
                 }))
                 return;
             bool bInitSuccess = true;
-            bInitSuccess &= ServInit.WithTracingService();
+            //bInitSuccess &= ServInit.WithTracingService();
             if (!bInitSuccess) return;
 
             Resources_DeploymentManager.Get().SetDeploymentBranchNameAndBuildNumber(ServInit.RequiredEnvironmentVariables["DEPLOYMENT_BRANCH_NAME"], ServInit.RequiredEnvironmentVariables["DEPLOYMENT_BUILD_NUMBER"]);
@@ -67,7 +64,7 @@ namespace ApiGatewayService
                 new BWebPrefixStructure(new string[] { "/3d/models*" }, () => new HandleRequest(CadFileServiceBaseUrl).WithLoginRequirement(AuthServiceBaseUrl)),
                 new BWebPrefixStructure(new string[] { "/scheduler/internal/*" }, () => new HandleRequest(SchedulerServiceBaseUrl)/*Internal services have secret based auth check, different than login mechanism*/),
             };
-            var BWebService = new BWebService(WebServiceEndpoints.ToArray(), ServInit.ServerPort, ServInit.TracingService);
+            var BWebService = new BWebService(WebServiceEndpoints.ToArray(), ServInit.ServerPort/*, ServInit.TracingService*/);
             BWebService.Run((string Message) =>
             {
                 ServInit.LoggingService.WriteLogs(BLoggingServiceMessageUtility.Single(EBLoggingServiceLogType.Info, Message), ServInit.ProgramID, "WebService");

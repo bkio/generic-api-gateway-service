@@ -131,7 +131,6 @@ Global
 		submodules\BDotNetFramework\Services\BServiceUtilities-PubSubService-AZ\BServiceUtilities-PubSubService-AZ.projitems*{29b1dd26-fece-4676-b6d6-745c60ef012f}*SharedItemsImports = 13
 		submodules\BDotNetFramework\Services\BServiceUtilities-DatabaseService-MongoDB\BServiceUtilities-DatabaseService-MongoDB.projitems*{2ead34ef-40e1-4fdd-b610-3b476c9f26b3}*SharedItemsImports = 13
 		submodules\BDotNetFramework\Services\BServiceUtilities-LoggingService-AZ\BServiceUtilities-LoggingService-AZ.projitems*{3801a9bf-f27f-4810-bf83-891492713381}*SharedItemsImports = 13
-		submodules\BDotNetFramework\Services\BServiceUtilities-TracingService-GC\BServiceUtilities-TracingService-GC.projitems*{5771f05a-f7d2-4d11-aecb-12420f868548}*SharedItemsImports = 5
 		submodules\BDotNetFramework\Services\BServiceUtilities\BServiceUtilities.projitems*{5771f05a-f7d2-4d11-aecb-12420f868548}*SharedItemsImports = 5
 		submodules\BDotNetFramework\Utilities\ServiceUtilities_All\ServiceUtilities_All.projitems*{5771f05a-f7d2-4d11-aecb-12420f868548}*SharedItemsImports = 5
 		submodules\BDotNetFramework\Services\BServiceUtilities-PubSubService-Redis\BServiceUtilities-PubSubService-Redis.projitems*{58d5d147-a1c6-4051-9cb0-1d4b44949aa6}*SharedItemsImports = 13

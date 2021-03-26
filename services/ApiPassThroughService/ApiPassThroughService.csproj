@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\submodules\BDotNetFramework\Utilities\BWebServiceUtilities-GC\BWebServiceUtilities-GC.csproj" />
+    <ProjectReference Include="..\..\submodules\BDotNetFramework\Utilities\BWebServiceUtilities-Basic\BWebServiceUtilities-Basic.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\submodules\BDotNetFramework\Utilities\ServiceUtilities_All\ServiceUtilities_All.projitems" Label="Shared" />
