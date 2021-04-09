@@ -59,7 +59,7 @@ namespace ApiGatewayService.Endpoints
                 _Context,
                 DestinationBaseUrl + _Context.Request.RawUrl,
                 _ErrorMessageAction,
-                true,
+                bAuthCheck,
                 false,
                 new string[] { "do-not-get-db-clearance", "internal-call-secret" });
             GetTracingService()?.On_FromServiceToGateway_Received(_Context, _ErrorMessageAction);
