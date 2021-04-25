@@ -114,7 +114,7 @@ namespace ApiGatewayService.Endpoints
                     RequestMethod =  "POST",
                     ContentType = "application/json",
                     Content = new BStringOrStream(RequestObject.ToString()),
-                    bWithAuthToken = true,
+                    bWithAuthToken = false,
                     UseContextHeaders = _Context,
                 },
                 false,
