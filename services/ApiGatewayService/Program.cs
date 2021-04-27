@@ -53,23 +53,23 @@ namespace ApiGatewayService
             var CustomProceduresServiceBaseUrl = ServInit.RequiredEnvironmentVariables["CUSTOM_PROCEDURES_SERVICE_BASE_URL"];
             var SchedulerServiceBaseUrl = ServInit.RequiredEnvironmentVariables["SCHEDULER_SERVICE_BASE_URL"];
 
-            var AzureApplicationGatewayRootPath = "/";
+            var RootPath = "/";
             if (ServInit.RequiredEnvironmentVariables["DEPLOYMENT_BRANCH_NAME"] != "master" && ServInit.RequiredEnvironmentVariables["DEPLOYMENT_BRANCH_NAME"] != "development")
             {
-                AzureApplicationGatewayRootPath = "/" + ServInit.RequiredEnvironmentVariables["DEPLOYMENT_BRANCH_NAME"] + "/";
+                RootPath = "/" + ServInit.RequiredEnvironmentVariables["DEPLOYMENT_BRANCH_NAME"] + "/";
             }
 
             var WebServiceEndpoints = new List<BWebPrefixStructure>()
             {
-                new BWebPrefixStructure(new string[] { AzureApplicationGatewayRootPath }, () => new AzureApplicationGatewayRootRequest()/*Return OK for avoiding 502 Bad Gateway error from Microsoft-Azure-Application-Gateway health check*/),
-                new BWebPrefixStructure(new string[] { "/auth/ping" }, () => new HandleRequest(AuthServiceBaseUrl)/*Ping-pong; for avoiding scale-down-to-zero*/),
-                new BWebPrefixStructure(new string[] { "/auth/internal/*" }, () => new HandleRequest(AuthServiceBaseUrl)/*Internal services have secret based auth check, different than login mechanism*/),
-                new BWebPrefixStructure(new string[] { "/auth/login*" }, () => new HandleRequest(AuthServiceBaseUrl)/*For login requests*/),
-                new BWebPrefixStructure(new string[] { "/auth/*" }, () => new HandleRequest(AuthServiceBaseUrl).WithLoginRequirement(AuthServiceBaseUrl)/*Required from external*/),
-                new BWebPrefixStructure(new string[] { "/3d/models/ping" }, () => new HandleRequest(CadFileServiceBaseUrl)/*Ping-pong; for avoiding scale-down-to-zero*/),
-                new BWebPrefixStructure(new string[] { "/3d/models/internal/*" }, () => new HandleRequest(CadFileServiceBaseUrl)/*Internal services have secret based auth check, different than login mechanism*/),
-                new BWebPrefixStructure(new string[] { "/3d/models*" }, () => new HandleRequest(CadFileServiceBaseUrl).WithLoginRequirement(AuthServiceBaseUrl)),
-                new BWebPrefixStructure(new string[] { "/scheduler/internal/*" }, () => new HandleRequest(SchedulerServiceBaseUrl)/*Internal services have secret based auth check, different than login mechanism*/),
+                new BWebPrefixStructure(new string[] { RootPath }, () => new AzureApplicationGatewayRootRequest()/*Return OK for avoiding 502 Bad Gateway error from Microsoft-Azure-Application-Gateway health check*/),
+                new BWebPrefixStructure(new string[] { RootPath + "auth/ping" }, () => new HandleRequest(AuthServiceBaseUrl)/*Ping-pong; for avoiding scale-down-to-zero*/),
+                new BWebPrefixStructure(new string[] { RootPath + "auth/internal/*" }, () => new HandleRequest(AuthServiceBaseUrl)/*Internal services have secret based auth check, different than login mechanism*/),
+                new BWebPrefixStructure(new string[] { RootPath + "auth/login*" }, () => new HandleRequest(AuthServiceBaseUrl)/*For login requests*/),
+                new BWebPrefixStructure(new string[] { RootPath + "auth/*" }, () => new HandleRequest(AuthServiceBaseUrl).WithLoginRequirement(AuthServiceBaseUrl)/*Required from external*/),
+                new BWebPrefixStructure(new string[] { RootPath + "3d/models/ping" }, () => new HandleRequest(CadFileServiceBaseUrl)/*Ping-pong; for avoiding scale-down-to-zero*/),
+                new BWebPrefixStructure(new string[] { RootPath + "3d/models/internal/*" }, () => new HandleRequest(CadFileServiceBaseUrl)/*Internal services have secret based auth check, different than login mechanism*/),
+                new BWebPrefixStructure(new string[] { RootPath + "3d/models*" }, () => new HandleRequest(CadFileServiceBaseUrl).WithLoginRequirement(AuthServiceBaseUrl)),
+                new BWebPrefixStructure(new string[] { RootPath + "scheduler/internal/*" }, () => new HandleRequest(SchedulerServiceBaseUrl)/*Internal services have secret based auth check, different than login mechanism*/),
             };
             var BWebService = new BWebService(WebServiceEndpoints.ToArray(), ServInit.ServerPort/*, ServInit.TracingService*/);
             BWebService.Run((string Message) =>
