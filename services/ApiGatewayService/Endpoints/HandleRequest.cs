@@ -14,8 +14,7 @@ namespace ApiGatewayService.Endpoints
     {
         private readonly string DestinationBaseUrl;
 
-        public HandleRequest(
-            string _ApiBaseUrl)
+        public HandleRequest(string _ApiBaseUrl)
         {
             DestinationBaseUrl = _ApiBaseUrl.TrimEnd('/');
         }
