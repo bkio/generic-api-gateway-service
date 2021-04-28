@@ -13,10 +13,12 @@ namespace ApiGatewayService.Endpoints
     internal class HandleRequest : BppWebServiceBase
     {
         private readonly string DestinationBaseUrl;
+        private readonly string RootPath;
 
-        public HandleRequest(string _ApiBaseUrl)
+        public HandleRequest(string _ApiBaseUrl, string _RootPath)
         {
             DestinationBaseUrl = _ApiBaseUrl.TrimEnd('/');
+            RootPath = _RootPath;
         }
         
         private string AuthServiceBaseUrl;
@@ -109,7 +111,7 @@ namespace ApiGatewayService.Endpoints
                 GetTracingService()?.On_FromGatewayToService_Sent(_Context, _ErrorMessageAction);
                 var Result = BWebServiceExtraUtilities.InterServicesRequest(new BWebServiceExtraUtilities.InterServicesRequestRequest()
                 {
-                    DestinationServiceUrl = AuthServiceBaseUrl + "/auth/access_check",
+                    DestinationServiceUrl = AuthServiceBaseUrl + RootPath + "auth/access_check",
                     RequestMethod =  "POST",
                     ContentType = "application/json",
                     Content = new BStringOrStream(RequestObject.ToString()),

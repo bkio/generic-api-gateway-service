@@ -62,14 +62,14 @@ namespace ApiGatewayService
             var WebServiceEndpoints = new List<BWebPrefixStructure>()
             {
                 new BWebPrefixStructure(new string[] { RootPath }, () => new AzureApplicationGatewayRootRequest()/*Return OK for avoiding 502 Bad Gateway error from Microsoft-Azure-Application-Gateway health check*/),
-                new BWebPrefixStructure(new string[] { RootPath + "auth/ping" }, () => new HandleRequest(AuthServiceBaseUrl)/*Ping-pong; for avoiding scale-down-to-zero*/),
-                new BWebPrefixStructure(new string[] { RootPath + "auth/internal/*" }, () => new HandleRequest(AuthServiceBaseUrl)/*Internal services have secret based auth check, different than login mechanism*/),
-                new BWebPrefixStructure(new string[] { RootPath + "auth/login*" }, () => new HandleRequest(AuthServiceBaseUrl)/*For login requests*/),
-                new BWebPrefixStructure(new string[] { RootPath + "auth/*" }, () => new HandleRequest(AuthServiceBaseUrl).WithLoginRequirement(AuthServiceBaseUrl)/*Required from external*/),
-                new BWebPrefixStructure(new string[] { RootPath + "3d/models/ping" }, () => new HandleRequest(CadFileServiceBaseUrl)/*Ping-pong; for avoiding scale-down-to-zero*/),
-                new BWebPrefixStructure(new string[] { RootPath + "3d/models/internal/*" }, () => new HandleRequest(CadFileServiceBaseUrl)/*Internal services have secret based auth check, different than login mechanism*/),
-                new BWebPrefixStructure(new string[] { RootPath + "3d/models*" }, () => new HandleRequest(CadFileServiceBaseUrl).WithLoginRequirement(AuthServiceBaseUrl)),
-                new BWebPrefixStructure(new string[] { RootPath + "scheduler/internal/*" }, () => new HandleRequest(SchedulerServiceBaseUrl)/*Internal services have secret based auth check, different than login mechanism*/),
+                new BWebPrefixStructure(new string[] { RootPath + "auth/ping" }, () => new HandleRequest(AuthServiceBaseUrl, RootPath)/*Ping-pong; for avoiding scale-down-to-zero*/),
+                new BWebPrefixStructure(new string[] { RootPath + "auth/internal/*" }, () => new HandleRequest(AuthServiceBaseUrl, RootPath)/*Internal services have secret based auth check, different than login mechanism*/),
+                new BWebPrefixStructure(new string[] { RootPath + "auth/login*" }, () => new HandleRequest(AuthServiceBaseUrl, RootPath)/*For login requests*/),
+                new BWebPrefixStructure(new string[] { RootPath + "auth/*" }, () => new HandleRequest(AuthServiceBaseUrl, RootPath).WithLoginRequirement(AuthServiceBaseUrl)/*Required from external*/),
+                new BWebPrefixStructure(new string[] { RootPath + "3d/models/ping" }, () => new HandleRequest(CadFileServiceBaseUrl, RootPath)/*Ping-pong; for avoiding scale-down-to-zero*/),
+                new BWebPrefixStructure(new string[] { RootPath + "3d/models/internal/*" }, () => new HandleRequest(CadFileServiceBaseUrl, RootPath)/*Internal services have secret based auth check, different than login mechanism*/),
+                new BWebPrefixStructure(new string[] { RootPath + "3d/models*" }, () => new HandleRequest(CadFileServiceBaseUrl, RootPath).WithLoginRequirement(AuthServiceBaseUrl)),
+                new BWebPrefixStructure(new string[] { RootPath + "scheduler/internal/*" }, () => new HandleRequest(SchedulerServiceBaseUrl, RootPath)/*Internal services have secret based auth check, different than login mechanism*/),
             };
             var BWebService = new BWebService(WebServiceEndpoints.ToArray(), ServInit.ServerPort/*, ServInit.TracingService*/);
             BWebService.Run((string Message) =>
