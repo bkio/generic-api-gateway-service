@@ -56,7 +56,7 @@ namespace ApiGatewayService.Endpoints
                 _ErrorMessageAction)) return AuthFailureResponse;
 
             GetTracingService()?.On_FromGatewayToService_Sent(_Context, _ErrorMessageAction);
-            _ErrorMessageAction?.Invoke($"Gateway->HandleRequest: RequestRedirection received. RawUrl: {_Context.Request.RawUrl} , Headers: {_Context.Request.Headers.ToString()}");
+            _ErrorMessageAction?.Invoke($"Gateway->HandleRequest: RequestRedirection received. RawUrl: {_Context.Request.RawUrl}");
             var Result = BWebServiceExtraUtilities.RequestRedirection(
                 _Context,
                 DestinationBaseUrl + _Context.Request.RawUrl,
