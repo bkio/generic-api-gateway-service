@@ -35,6 +35,7 @@ namespace ApiGatewayService
 
                     new string[] { "AUTH_SERVICE_BASE_URL" },
                     new string[] { "CAD_FILE_SERVICE_BASE_URL" },
+                    new string[] { "CAD_PROCESS_SERVICE_BASE_URL" },
                     new string[] { "CUSTOM_PROCEDURES_SERVICE_BASE_URL" },
                     new string[] { "SCHEDULER_SERVICE_BASE_URL" }
                 }))
@@ -50,6 +51,7 @@ namespace ApiGatewayService
             */
             var AuthServiceBaseUrl = ServInit.RequiredEnvironmentVariables["AUTH_SERVICE_BASE_URL"];
             var CadFileServiceBaseUrl = ServInit.RequiredEnvironmentVariables["CAD_FILE_SERVICE_BASE_URL"];
+            var CadProcessServiceBaseUrl = ServInit.RequiredEnvironmentVariables["CAD_PROCESS_SERVICE_BASE_URL"];
             var CustomProceduresServiceBaseUrl = ServInit.RequiredEnvironmentVariables["CUSTOM_PROCEDURES_SERVICE_BASE_URL"];
             var SchedulerServiceBaseUrl = ServInit.RequiredEnvironmentVariables["SCHEDULER_SERVICE_BASE_URL"];
 
@@ -69,6 +71,7 @@ namespace ApiGatewayService
                 new BWebPrefixStructure(new string[] { RootPath + "3d/models/ping" }, () => new HandleRequest(CadFileServiceBaseUrl, RootPath)/*Ping-pong; for avoiding scale-down-to-zero*/),
                 new BWebPrefixStructure(new string[] { RootPath + "3d/models/internal/*" }, () => new HandleRequest(CadFileServiceBaseUrl, RootPath)/*Internal services have secret based auth check, different than login mechanism*/),
                 new BWebPrefixStructure(new string[] { RootPath + "3d/models*" }, () => new HandleRequest(CadFileServiceBaseUrl, RootPath).WithLoginRequirement(AuthServiceBaseUrl)),
+                new BWebPrefixStructure(new string[] { RootPath + "3d/process/internal/*" }, () => new HandleRequest(CadProcessServiceBaseUrl, RootPath)/*Internal services have secret based auth check, different than login mechanism*/),
                 new BWebPrefixStructure(new string[] { RootPath + "scheduler/internal/*" }, () => new HandleRequest(SchedulerServiceBaseUrl, RootPath)/*Internal services have secret based auth check, different than login mechanism*/),
             };
             var BWebService = new BWebService(WebServiceEndpoints.ToArray(), ServInit.ServerPort/*, ServInit.TracingService*/);
