@@ -58,7 +58,7 @@ namespace ApiGatewayService
             var RootPath = "/";
             if (ServInit.RequiredEnvironmentVariables["DEPLOYMENT_BRANCH_NAME"] != "master" && ServInit.RequiredEnvironmentVariables["DEPLOYMENT_BRANCH_NAME"] != "development")
             {
-                RootPath = "/" + ServInit.RequiredEnvironmentVariables["DEPLOYMENT_BUILD_NUMBER"] + "/";
+                RootPath = "/" + ServInit.RequiredEnvironmentVariables["DEPLOYMENT_BRANCH_NAME"] + "/";
             }
 
             var WebServiceEndpoints = new List<BWebPrefixStructure>()
